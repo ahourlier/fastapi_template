@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "backend"
+name = "app"
 version = "0.1.0"
 description = ""
 authors = ["Digital Lab"]
@@ -79,7 +79,7 @@ ignore = ["E501", "I001"] # Ignore line length errors & import sorting
 [tool.pytest.ini_options]
 env = [
     "ENV=test",
-    "SQLALCHEMY_DATABASE_URI=postgresql+asyncpg://postgres:postgres@localhost:5435/fastapi_template_db_test",
+    "SQLALCHEMY_DATABASE_URI=postgresql+asyncpg://postgres:postgres@db_test:5432/fastapi_template_db_test",
     "SQLALCHEMY_SILENCE_UBER_WARNING=1",
 ]
 asyncio_mode = "auto"

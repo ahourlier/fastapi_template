@@ -18,6 +18,10 @@ My project description
 
 ## Project Setup
 
+Choose your prefered setup way
+
+### Way 1: Manually
+
 - Install [Poetry](https://python-poetry.org/docs/)
 
 - Set config for venv in local
@@ -25,13 +29,13 @@ My project description
   ```sh
   poetry config virtualenvs.in-project true
   poetry env use 3.11
-  poetry shell
+  eval $(poetry env activate)
   poetry install --without prod
   ```
 
 - (Postgres only) Create and run required databases
 
-  ```bash
+  ```sh
   docker compose up -d
   ```
 
@@ -39,19 +43,27 @@ My project description
 
   ```sh
   # For migrations on Cloud SQL instance, ensure creating unix socket & starting Cloud SQL Proxy first
-  # sudo mkdir /var/cloudsql && sudo chmod 777 /var/cloudsql
-  # cloud-sql-proxy -u /var/cloudsql sandbox-ahourlier:europe-west9:fastapi-template-instance
+  sudo mkdir /var/cloudsql && sudo chmod 777 /var/cloudsql
+  cloud-sql-proxy -u /var/cloudsql sandbox-ahourlier:europe-west9:fastapi-template-instance
   ```
 
-### Run locally
+- Run the API
+
+  ```sh
+  uvicorn app.main:app --reload          # Or from VSCode launcher
+  ```
+
+### Way 2: Automated with devcontainer
+
+:warning: First remove the DB services from docker-compose.yml if you don't require them :warning:
 
 ```sh
-# WITHOUT DOCKER (Guess ADC from env)
-uvicorn app.main:app --reload          # Or from VSCode launcher
+# Loads a complete dev environment inside container
 
-# WITH DOCKER
-Run the service named 'app' in docker-compose.yml
+devcontainer up --workspace-folder .
 ```
+
+:info: Care about the **SQLALCHEMY_DATABASE_URI** variable, hostname & ports must be changed according to your env (container or host)
 
 ## Tests
 
